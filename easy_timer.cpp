@@ -34,12 +34,12 @@ int ez_t::timer::getMillisAndStopTimer(int t_index) {
         open_indexes.push(t_index);
     }
 
-    return 0;
+    return ticks_to_millis(t);
 }
 
 int ez_t::timer::getMillisAndResetTimer(int t_index) {
     clock_t t = clock();
-    t-= starts[t_index];
+    t -= starts[t_index];
 
     starts[t_index] = clock();
 
