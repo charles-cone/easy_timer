@@ -14,6 +14,8 @@ namespace ez_t {
         timer(timer const &) = delete;
         void operator=(timer const &) = delete;
 
+        void printTicsPerSecond();
+
         int createNewTimer();
         int getMillisFromTimer(int t_index);
         int getMillisAndStopTimer(int t_index);

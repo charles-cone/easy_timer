@@ -47,5 +47,10 @@ int ez_t::timer::getMillisAndResetTimer(int t_index) {
 }
 
 int ez_t::timer::ticks_to_millis(clock_t t) {
-    return (int)((float)t/CLOCKS_PER_SEC)*1000;
+    return t * (CLOCKS_PER_SEC/1000);
 }
+
+void ez_t::timer::printTicsPerSecond() {
+    std::cout << CLOCKS_PER_SEC << std::endl;
+}
+
