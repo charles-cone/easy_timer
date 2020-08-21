@@ -4,6 +4,7 @@
 #include <vector>
 #include <stack>
 #include <ctime>
+#include <iostream>
 
 namespace ez_t {
     enum class interval {
