@@ -6,25 +6,24 @@
 #include <ctime>
 
 namespace ez_t {
+    enum class interval {
+        Millis,
+        Seconds,
+        Minutes
+    };
+
     class timer {
     public:
-        static timer &getInstance();
-
-        timer(timer const &) = delete;
-        void operator=(timer const &) = delete;
-
-        int createNewTimer();
-        int getMillisFromTimer(int t_index);
-        int getMillisAndStopTimer(int t_index);
-        int getMillisAndResetTimer(int t_index);
+        explicit timer(interval i);
+        float getTime();
 
     private:
-        timer() = default;
-        static int ticks_to_millis(clock_t t);
+        static float ticks_to_millis(clock_t t);
+        static float ticks_to_seconds(clock_t t);
+        static float ticks_to_minutes(clock_t t);
 
-        std::vector<clock_t> starts;
-        std::stack<int> open_indexes;
-
+        interval _mode;
+        clock_t _start;
     };
 }
 #endif //EASY_TIMER_EASY_TIMER_H

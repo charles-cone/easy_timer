@@ -1,51 +1,29 @@
 #include "easy_timer.h"
 
-ez_t::timer &ez_t::timer::getInstance() {
-    static timer instance;
-    return instance;
+ez_t::timer::timer(ez_t::interval i) {
+    _start = clock();
 }
 
-int ez_t::timer::createNewTimer() {
-    int index;
-    if(open_indexes.empty()) {
-        starts.push_back(NULL);
-        index = starts.size()-1;
-    } else {
-       index = open_indexes.top();
-       open_indexes.pop();
+float ez_t::timer::getTime() {
+    clock_t time = clock() - _start;
+    switch (_mode) {
+        case interval::Millis:
+            return ticks_to_millis(time);
+        case interval::Seconds:
+            return ticks_to_seconds(time);
+        case interval::Minutes:
+            return ticks_to_minutes(time);
     }
-    starts[index] = clock();
-    return index;
 }
 
-int ez_t::timer::getMillisFromTimer(int t_index) {
-    clock_t t = clock();
-    t -= starts[t_index];
-    return ticks_to_millis(t);
+float ez_t::timer::ticks_to_seconds(clock_t t) {
+    return t / (float)CLOCKS_PER_SEC;
 }
 
-int ez_t::timer::getMillisAndStopTimer(int t_index) {
-    clock_t t = clock();
-    t -= starts[t_index];
-
-    if(t_index == starts.size()-1){
-        starts.pop_back();
-    } else {
-        open_indexes.push(t_index);
-    }
-
-    return 0;
+float ez_t::timer::ticks_to_minutes(clock_t t) {
+    return t / (float)CLOCKS_PER_SEC*60;
 }
 
-int ez_t::timer::getMillisAndResetTimer(int t_index) {
-    clock_t t = clock();
-    t-= starts[t_index];
-
-    starts[t_index] = clock();
-
-    return ticks_to_millis(t);
-}
-
-int ez_t::timer::ticks_to_millis(clock_t t) {
-    return (int)((float)t/CLOCKS_PER_SEC)*1000;
+float ez_t::timer::ticks_to_millis(clock_t t) {
+    return (t / (float)CLOCKS_PER_SEC)*1000;
 }
